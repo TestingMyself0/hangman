@@ -1,8 +1,11 @@
 package org.example;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Main {
@@ -103,7 +106,8 @@ public class Main {
 
     private static String takeNewRandomWordFromFile() {
 
-        String filePath = "/Users/yana/IdeaProjects/hangman/src/main/resources/words.txt";
+        Path currentDir = Paths.get("").toAbsolutePath();
+        String filePath = currentDir.resolve("src/main/resources/words.txt").toString();
         int numOfWords = countNumsInFile(filePath);
         int randomNum = randomizer(numOfWords);
 
