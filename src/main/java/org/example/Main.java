@@ -16,34 +16,36 @@ public class Main {
     private static List<String> usedLetters = new ArrayList<>();
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Добро пожаловать в игру! Нажмите [Н]ачать или [В]ыйти");
-        String str = sc.next();
-        startTheGame(str);
 
-        String word = takeNewRandomWordFromFile();
-        System.out.println("Кол-во букв в слове - " + word.length());
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("Добро пожаловать в игру! Нажмите [Н]ачать или [В]ыйти");
+            String line = scanner.next();
+            startTheGame(line);
 
-        wordDisplay = starsLettersInTheWord(word);
-        System.out.println(wordDisplay);
+            String word = takeNewRandomWordFromFile();
+            System.out.println("Кол-во букв в слове - " + word.length());
 
-        do {
-            checkInputLetterInTheWord(inputValidLetter(sc), word);
+            wordDisplay = starsLettersInTheWord(word);
             System.out.println(wordDisplay);
 
-            if (mistakesCount > 0)
-                printHangman(mistakesCount);
-            if (!wordDisplay.contains("*")){
-                System.out.println("\nВы выиграли! Поздравляю!!!");
-                return;
-            }
+            do {
+                checkInputLetterInTheWord(inputValidLetter(scanner), word);
+                System.out.println(wordDisplay);
 
-            System.out.println("Использованные буквы: " + usedLetters);
-        } while (mistakesCount < 6);
+                if (mistakesCount > 0)
+                    printHangman(mistakesCount);
+                if (!wordDisplay.contains("*")){
+                    System.out.println("\nВы выиграли! Поздравляю!!!");
+                    return;
+                }
 
-        if (mistakesCount == 6) System.out.println("\nВы проиграли! Попробуйте еще раз.");
+                System.out.println("Использованные буквы: " + usedLetters);
+            } while (mistakesCount < 6);
 
-        sc.close();
+            System.out.println("\nВы проиграли! Попробуйте еще раз.");
+        }
+
     }
 
     private static char inputValidLetter(Scanner input) {
@@ -124,9 +126,8 @@ public class Main {
     }
 
     private static int randomizer (int range) {
-        int min = 1;
         Random random = new Random();
-        return random.nextInt(range - min + 1) + min;
+        return random.nextInt(range) + 1;
     }
 
     private static int countNumsInFile (String filePath) {
